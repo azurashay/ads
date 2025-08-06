@@ -1,46 +1,99 @@
-# Getting Started with Create React App
+# Ad Creator System
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Advanced digital ad creation system with support for multiple platforms.
 
-## Available Scripts
+## Main Features
 
-In the project directory, you can run:
+### 🎯 Ad Sizes
+- **Google Ads**: Search Ads, Display Ads, Responsive Display
+- **Facebook & Instagram**: Feed Ads, Stories, Carousel
+- **LinkedIn**: Sponsored Content, Message Ads
+- **Twitter/X**: Promoted Tweets
+- **TikTok**: In-Feed, TopView
 
-### `npm start`
+### ✏️ Advanced Editor
+- Ad size selection by platform
+- Element editing (logo, title, subtitle, button)
+- Background settings (color or image)
+- Element alignment
+- Real-time preview
+- Image upload with drag & drop
+- Enhanced image handling for Canvas
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### 🎨 Design
+- Modern and accessible user interface
+- Responsive design
+- Accurate preview
+- Professional styling
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Installation and Setup
 
-### `npm test`
+### Prerequisites
+- Node.js (version 14 or higher)
+- npm or yarn
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Installation
+```bash
+# Install dependencies
+npm install
 
-### `npm run build`
+# Start development server
+npm start
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+The application will automatically open in your browser at `http://localhost:3000`
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Build for Production
+```bash
+npm run build
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Project Structure
 
-### `npm run eject`
+```
+src/
+├── components/
+│   ├── AdEditor/          # Main ad editor
+│   ├── AdPreview/         # Preview component
+│   └── common/            # Shared components
+├── types/                 # TypeScript definitions
+├── utils/                 # Helper functions
+└── hooks/                 # React Hooks
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## Technologies
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- **React 18** with TypeScript
+- **Tailwind CSS** for styling
+- **React Hook Form** for form management
+- **Heroicons** for icons
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Current Features
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+- ✅ Create ads with multiple platforms
+- ✅ Upload logo and background images
+- ✅ Real-time preview
+- ✅ Download generated ads as JPG
+- ✅ Save templates locally
+- ✅ Export templates as JSON
+- ✅ Enhanced image handling for Canvas
+- ✅ Responsive design
 
-## Learn More
+## Future Features
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- [ ] Load saved templates
+- [ ] Ready template library
+- [ ] Share ads
+- [ ] Edit history
+- [ ] Video support
+- [ ] Animations
+- [ ] Automatic optimization
+- [ ] Cloud storage
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Contributing
+
+We welcome contributions! Please create an Issue or Pull Request.
+
+## License
+
+MIT License

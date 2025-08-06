@@ -1,3 +1,4 @@
+/* Basic app styles */
 .App {
   text-align: center;
 }
@@ -15,12 +16,7 @@
 
 .App-header {
   background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  padding: 20px;
   color: white;
 }
 
@@ -35,4 +31,63 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+/* Drag and drop styles */
+.draggable-element {
+  cursor: grab;
+  transition: all 0.2s ease;
+}
+
+.draggable-element:active {
+  cursor: grabbing;
+}
+
+.draggable-element.dragging {
+  opacity: 0.5;
+  transform: scale(0.95);
+}
+
+.drop-zone {
+  transition: all 0.2s ease;
+}
+
+.drop-zone.drag-over {
+  background-color: #e3f2fd;
+  border: 2px dashed #2196f3;
+  border-radius: 8px;
+}
+
+/* Toggle switch styles */
+.toggle-switch {
+  transition: all 0.2s ease;
+}
+
+.toggle-switch:hover {
+  transform: scale(1.05);
+}
+
+/* Element visibility styles */
+.element-hidden {
+  opacity: 0.5;
+  filter: grayscale(50%);
+}
+
+.element-hidden .bg-neutral-1 {
+  background-color: #f8f9fa;
+}
+
+/* Drag handle styles */
+.drag-handle {
+  cursor: grab;
+  transition: all 0.2s ease;
+}
+
+.drag-handle:hover {
+  transform: scale(1.1);
+}
+
+.drag-handle:active {
+  cursor: grabbing;
+  transform: scale(0.95);
 }
