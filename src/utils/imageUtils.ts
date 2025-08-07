@@ -189,4 +189,81 @@ export const loadImageForCanvas = async (
     useFallback: true,
     error: result.error || 'Image failed to load'
   };
+};
+
+/**
+ * Generate ad image from template
+ */
+export const generateAdImage = async (template: any): Promise<string> => {
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+  if (!ctx) return '';
+  
+  canvas.width = template.size.width;
+  canvas.height = template.size.height;
+  
+  // Draw background
+  if (template.background.type === 'color') {
+    ctx.fillStyle = template.background.value;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+  } else if (template.background.type === 'image') {
+    try {
+      const imageResult = await loadImageForCanvas(template.background.value);
+      if (imageResult.image) {
+        ctx.drawImage(imageResult.image, 0, 0, canvas.width, canvas.height);
+      } else {
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+      }
+    } catch (error) {
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+    }
+  } else {
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+  }
+  
+  // Draw elements
+  const promises: Promise<void>[] = [];
+  
+  template.elements.forEach((element: any) => {
+    if (!element.isVisible) return;
+    
+    if (element.type === 'logo' && element.imageUrl) {
+      const promise = new Promise<void>(async (resolve) => {
+        try {
+          const imageResult = await loadImageForCanvas(element.imageUrl, element.content);
+          
+          if (imageResult.image) {
+            ctx.drawImage(imageResult.image, element.position.x, element.position.y, 60, 60);
+          } else {
+            createFallbackImage(
+              ctx,
+              element.position.x,
+              element.position.y,
+              60,
+              60,
+              element.content,
+              element.style.fontSize || 16
+            );
+          }
+        } catch (error) {
+          ctx.font = `${element.style.fontSize || 16}px Arial`;
+          ctx.fillStyle = element.style.color || '#000000';
+          ctx.fillText(element.content, element.position.x, element.position.y + (element.style.fontSize || 16));
+        }
+        resolve();
+      });
+      promises.push(promise);
+    } else {
+      ctx.font = `${element.style.fontSize || 16}px Arial`;
+      ctx.fillStyle = element.style.color || '#000000';
+      ctx.fillText(element.content, element.position.x, element.position.y + (element.style.fontSize || 16));
+    }
+  });
+  
+  await Promise.all(promises);
+  
+  return canvas.toDataURL('image/jpeg', 0.9);
 }; 

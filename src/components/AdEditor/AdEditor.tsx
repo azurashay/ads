@@ -5,12 +5,16 @@ import AdPreview from '../AdPreview/AdPreview';
 import ImageUploader from '../common/ImageUploader';
 import { loadImageForCanvas, createFallbackImage } from '../../utils/imageUtils';
 import { saveAdTemplate, exportAdTemplate } from '../../utils/adStorage';
+import AdsPopup from '../common/AdsPopup';
+import { generateAdTemplates, createSampleConfig, AdConfig } from '../../utils/adGenerator';
 
 const AdEditor: React.FC = () => {
   const [selectedSize, setSelectedSize] = useState<AdSize | null>(null);
   const [isAdCreated, setIsAdCreated] = useState(false);
   const [createdAd, setCreatedAd] = useState<AdTemplate | null>(null);
   const [generatedImageUrl, setGeneratedImageUrl] = useState<string>('');
+  const [isAdsPopupOpen, setIsAdsPopupOpen] = useState(false);
+  const [generatedTemplates, setGeneratedTemplates] = useState<AdTemplate[]>([]);
   const [template, setTemplate] = useState<AdTemplate>({
     id: '1',
     name: 'New Ad',
@@ -262,6 +266,26 @@ const AdEditor: React.FC = () => {
     }
   };
 
+  const handleGenerateAds = () => {
+    // Create configuration from current template
+    const config: AdConfig = {
+      name: template.name,
+      title: template.elements.find(el => el.type === 'title')?.content || 'Ad Title',
+      subtitle: template.elements.find(el => el.type === 'subtitle')?.content || 'Ad Subtitle',
+      buttonText: template.elements.find(el => el.type === 'button')?.content || 'Click Here',
+      logoImage: template.elements.find(el => el.type === 'logo')?.imageUrl || '',
+      backgroundColor: template.background.type === 'color' ? template.background.value : '#ffffff',
+      backgroundImage: template.background.type === 'image' ? template.background.value : undefined,
+      platforms: ['Google Ads', 'Facebook & Instagram', 'LinkedIn', 'Twitter/X', 'TikTok'],
+      sizes: []
+    };
+    
+    // Generate templates for all platforms
+    const templates = generateAdTemplates(config);
+    setGeneratedTemplates(templates);
+    setIsAdsPopupOpen(true);
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="container mx-auto px-4 py-8">
@@ -437,12 +461,21 @@ const AdEditor: React.FC = () => {
                 </div>
               </div>
 
-              <button
-                type="submit"
-                className="w-full bg-green-500 text-white py-3 px-6 rounded-lg hover:bg-green-600 transition-colors font-medium text-lg font-semibold"
-              >
-                ✅ Create Ad
-              </button>
+              <div className="flex gap-3">
+                <button
+                  type="submit"
+                  className="flex-1 bg-green-500 text-white py-3 px-6 rounded-lg hover:bg-green-600 transition-colors font-medium text-lg font-semibold"
+                >
+                  ✅ Create Ad
+                </button>
+                <button
+                  type="button"
+                  onClick={handleGenerateAds}
+                  className="flex-1 bg-purple-500 text-white py-3 px-6 rounded-lg hover:bg-purple-600 transition-colors font-medium text-lg font-semibold"
+                >
+                  🚀 Generate All Ads
+                </button>
+              </div>
             </form>
           </div>
 
@@ -547,6 +580,13 @@ const AdEditor: React.FC = () => {
               </div>
             </div>
           )}
+
+          {/* Ads Popup */}
+          <AdsPopup
+            isOpen={isAdsPopupOpen}
+            onClose={() => setIsAdsPopupOpen(false)}
+            templates={generatedTemplates}
+          />
         </div>
       </div>
     </div>
